@@ -1,0 +1,69 @@
+##caso practico 2
+
+
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        List<double> calificaciones = new List<double>();
+        double calificacion;
+
+        Console.WriteLine("Ingrese las calificaciones de los estudiantes (0-100).");
+        Console.WriteLine("Escriba -1 para terminar.");
+
+        while (true)
+        {
+            Console.Write("Ingrese calificacion: ");
+            bool esNumero = double.TryParse(Console.ReadLine(), out calificacion);
+
+            if (!esNumero)
+            {
+                Console.WriteLine("Entrada no valida. Por favor, ingrese un numero.");
+                continue;
+            }
+
+            if (calificacion == -1)
+            {
+                break; 
+            }
+
+            if (calificacion < 0 || calificacion > 100)
+            {
+                Console.WriteLine("Calificacion invalida. Debe estar entre 0 y 100.");
+                continue;
+            }
+
+            calificaciones.Add(calificacion);
+        }
+        
+        if (calificaciones.Count == 0)
+        {
+            Console.WriteLine("No se ingresaron calificaciones.");
+            return;
+        }
+
+        double suma = 0;
+        double max = calificaciones[0];
+        double min = calificaciones[0];
+        int aprobados = 0;
+
+        foreach (var cal in calificaciones)
+        {
+            suma += cal;
+            if (cal > max) max = cal;
+            if (cal < min) min = cal;
+            if (cal >= 70) aprobados++;
+        }
+
+        double promedio = suma / calificaciones.Count;
+
+        Console.WriteLine("\nResumen de calificaciones:");
+        Console.WriteLine($"Promedio: {promedio:F2}");
+        Console.WriteLine($"Calificacion mas alta: {max}");
+        Console.WriteLine($"Calificacion mas baja: {min}");
+        Console.WriteLine($"Numero de estudiantes aprobados: {aprobados}");
+    }
+}

@@ -1,0 +1,110 @@
+##caso practico 1
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        List<string> tareasPendientes = new List<string>();
+        bool continuar = true;
+
+        while (continuar)
+        {
+            MostrarMenu();
+            string opcion = Console.ReadLine();
+
+            switch (opcion)
+            {
+                case "1":
+                    VerTareas(tareasPendientes);
+                    break;
+
+                case "2":
+                    AgregarTarea(tareasPendientes);
+                    break;
+
+                case "3":
+                    MarcarTareaComoCompletada(tareasPendientes);
+                    break;
+
+                case "4":
+                    continuar = false;
+                    Console.WriteLine("Hasta luego, Gracias por usar el sistema de tareas.");
+                    break;
+
+                default:
+                    Console.WriteLine("Opcion no valida. Intenta de nuevo.");
+                    break;
+            }
+        }
+    }
+
+    static void MostrarMenu()
+    {
+        Console.Clear();
+        Console.WriteLine("Menu de Gestión de Tareas");
+        Console.WriteLine("1. Ver tareas pendientes");
+        Console.WriteLine("2. Agregar nueva tarea");
+        Console.WriteLine("3. Marcar tarea como completada");
+        Console.WriteLine("4. Salir");
+        Console.Write("Selecciona una opción: ");
+    }
+
+    static void VerTareas(List<string> tareasPendientes)
+    {
+        if (tareasPendientes.Count == 0)
+        {
+            Console.WriteLine("No tienes tareas pendientes.");
+        }
+        else
+        {
+            Console.WriteLine("Tareas pendientes:");
+            for (int i = 0; i < tareasPendientes.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {tareasPendientes[i]}");
+            }
+        }
+    }
+
+    static void AgregarTarea(List<string> tareasPendientes)
+    {
+        Console.Write("Escribe la descripcion de la nueva tarea: ");
+        string nuevaTarea = Console.ReadLine()?.Trim();
+
+        if (!string.IsNullOrWhiteSpace(nuevaTarea))
+        {
+            tareasPendientes.Add(nuevaTarea);
+            Console.WriteLine("Tarea agregada correctamente.");
+        }
+        else
+        {
+            Console.WriteLine("La descripcion no puede estar vacia.");
+        }
+    }
+
+    static void MarcarTareaComoCompletada(List<string> tareasPendientes)
+    {
+        if (tareasPendientes.Count == 0)
+        {
+            Console.WriteLine("No hay tareas para completar.");
+            return;
+        }
+
+        VerTareas(tareasPendientes);
+        Console.Write("Selecciona el numero de la tarea a completar: ");
+        string input = Console.ReadLine();
+
+        if (int.TryParse(input, out int numeroTarea) && numeroTarea >= 1 && numeroTarea <= tareasPendientes.Count)
+        {
+            tareasPendientes.RemoveAt(numeroTarea - 1);
+            Console.WriteLine("Tarea completada y eliminada.");
+        }
+        else
+        {
+            Console.WriteLine("Numero de tarea invalido.");
+        }
+    }
+}
+
+
